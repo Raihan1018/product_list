@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 const App = () => {
+  const [cart, setCart] = useState([]);
+  // add to cart fun
+
+  const handleAddToCart = (product) => {
+    console.log(product);
+    setCart((previous) => [...previous, product]);
+  };
+
   const products = [
     {
       id: 1,
@@ -29,7 +37,10 @@ const App = () => {
           >
             <h2 className="text-2xl font-semibold">{product.name}</h2>
             <p className="text-lg my-3">${product.price}</p>
-            <button className="px-4 py-2 bg-green-500 rounded-lg text-white hover:bg-green-600 mouse-pointer">
+            <button
+              onClick={() => handleAddToCart(product)}
+              className="px-4 py-2 bg-green-500 rounded-lg text-white hover:bg-green-600 mouse-pointer"
+            >
               Add to cart
             </button>
           </div>
@@ -37,7 +48,18 @@ const App = () => {
       </div>
       {/* cart item */}
       <h2 className="text-xl font-bold mt-5">Cart</h2>
-      <p className="text-gray-600">Your Cart is empty:</p>
+      {cart.length === 0 ? (
+        <p className="text-gray-600">Your Cart is empty:</p>
+      ) : (
+        // <p>{cart.length}</p>
+        <ul className="list-disc pl-6">
+          {cart.map((item, index) => (
+            <li key={index} className="text-gray-800">
+              {item.name} - ${item.price}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
